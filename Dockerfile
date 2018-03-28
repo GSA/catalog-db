@@ -1,16 +1,15 @@
-FROM postgres:9.3
+#FROM postgres:9.6
+FROM mdillon/postgis
+MAINTAINER Data.gov
 
-# Install required packages
-RUN apt-get -q -y update && apt-get -q -y install \
-        postgis \
-        postgresql-9.3-postgis-2.1 \
-        postgresql-client
+# Default user/pass/db overwritten by docker-compose
+ENV DB_CKAN_USER ckan
+ENV DB_CKAN_PASSWORD ckan_password
+ENV DB_CKAN_DB ckan
+ENV DB_PYCSW_DB pycsw
 
-COPY prepare_db.sh /docker-entrypoint-initdb.d
-
-#VOLUME /var/lib/postgresql/data
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# Include datastore setup scripts
+ADD ./docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
 
 EXPOSE 5432
-CMD ["postgres"]
+
