@@ -6,7 +6,7 @@ RUN apt-get -q -y update && apt-get -q -y install \
         postgresql-9.3-postgis-2.3 \
         postgresql-client
 
-COPY prepare_db.sh /docker-entrypoint-initdb.d
+COPY ./prepare_db.sh /docker-entrypoint-initdb.d
 
 #VOLUME /var/lib/postgresql/data
 
