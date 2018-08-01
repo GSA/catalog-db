@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This test file is executed by the docker-compose test container for testing
+# against the catalog-db container.
+
 set -o errexit
 set -o pipefail
 set -o nounset
@@ -25,29 +28,41 @@ fi
 
 function test_setup () {
   # wait for port to become available
+  echo -n "Waiting for $host:$port to become available..."
   while ! nc -w 1 -z "$host" "$port"; do
     sleep 1;
   done
+
+  echo pass
 }
 
-function assert () {
-  local expected="$1"
-  local actual="$2"
-  shift
-  shift
+function test_sql () {
+  local database=$1
 
-  if [ "$expected" != "$actual" ]; then
-    echo FAILED "$@" >&2
-    echo "$expected != $actual" >&2
-    exit 1
-  fi
+  # Read SQL from stdin
+  psql --variable ON_ERROR_STOP=1 -At --quiet --port "$port" --host "$host" --username postgres "$database" <&0
+}
+
+function test_postgis_version () {
+  local database=$1
+
+  echo -n "Check PostGIS is correct version for $database... "
+  test_sql "$database" <<-EOSQL
+	DO \$\$
+	DECLARE postgis_version TEXT;
+	BEGIN
+	  postgis_version := (SELECT postgis_lib_version());
+	  IF '$expected_postgis_version' != postgis_version
+	  THEN
+	    RAISE EXCEPTION 'Unexpected PostGIS version % != % ', '$expected_postgis_version', postgis_version;
+	  END IF;
+	END
+	\$\$;
+	EOSQL
+
+  echo pass
 }
 
 test_setup
-
-postgis_version=$(psql --variable ON_ERROR_STOP=1 -At --quiet --port "$port" --host "$host" --username postgres ckan <<EOL
-   SELECT postgis_lib_version();
-EOL
-)
-
-assert "$expected_postgis_version" "$postgis_version" unexpected postgis version
+test_postgis_version ckan
+test_postgis_version pycsw
