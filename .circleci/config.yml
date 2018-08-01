@@ -5,15 +5,5 @@ jobs:
     steps:
       - checkout
       - run:
-          name: docker build
-          command: docker build -t catalog-db .
-      - run:
-          name: docker run
-          command: docker run -d --name catalog-db catalog-db
-      - run:
-          name: build test container
-          command: docker build -f .circleci/Dockerfile.test -t test .
-      - run:
-          name: run tests
-          command: docker run --rm --network container:catalog-db test
-
+          name: Run docker-compose tests
+          command: docker-compose -f docker-compose.test.yml up test
