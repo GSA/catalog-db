@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+set -o errexit
+set -o pipefail
+set -o nounset
 
 psql -U $POSTGRES_USER -c "CREATE USER ${DB_CKAN_USER} WITH PASSWORD '${DB_CKAN_PASSWORD}' SUPERUSER;" && \
 psql -U $POSTGRES_USER -c "CREATE DATABASE ${DB_CKAN_DB} OWNER ${DB_CKAN_USER};" && \
