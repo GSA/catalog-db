@@ -27,3 +27,10 @@ Then run the container on an alternative port.
 Connect from your localhost to test it.
 
     $ psql -p 9000 -U postgres -h localhost ckan
+
+
+## CI
+
+The tests are run on CI. We build the container, then create a test container in
+order to test it. The test container is a simple postgres container containing
+`psql` and our test script.

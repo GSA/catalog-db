@@ -1,0 +1,7 @@
+# This Dockerfile is used to build a test image containing any test tools and
+# scripts needed to test against our target container.
+FROM postgres:9.3
+
+ADD ./.circleci/test.sh /usr/local/bin/test.sh
+
+CMD ["test.sh"]
