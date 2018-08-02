@@ -3,8 +3,16 @@
 all: build
 
 build:
-	docker build -t catalog-db .
+	docker-compose build
+
+start:
+	docker-compose up db
+
+psql:
+	docker-compose exec db psql -U postgres ckan
 
 test:
-	docker-compose -f docker-compose.test.yml build
-	docker-compose -f docker-compose.test.yml up test
+	docker-compose up --abort-on-container-exit
+
+clean:
+	docker-compose down

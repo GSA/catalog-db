@@ -12,20 +12,29 @@ When running this docker image locally, you can follow these steps.
 
 Build the container.
 
-    $ docker build -t catalog-db .
+    $ make build
 
-Then run the container on an alternative port.
+Start the container.
 
-    $ docker run -it -p 9000:5432 catalog-db
+    $ make start
 
-Connect from your localhost to test it.
+With the db container started, connect to the database from a new terminal.
 
-    $ psql -p 9000 -U postgres -h localhost ckan
+    $ make psql
+    docker-compose exec db psql -U postgres ckan
+    psql (10.4 (Debian 10.4-2.pgdg90+1), server 9.3.23)
+    Type "help" for help.
+
+    ckan=#
+
+Bring the db container down.
+
+    $ make clean
 
 
 ## Tests
 
 Test are run in a `test` container that makes assertions against the built
-image. This is done with docker-compose.
+image.
 
     $ make test

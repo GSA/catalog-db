@@ -6,4 +6,4 @@ jobs:
       - checkout
       - run:
           name: Run docker-compose tests
-          command: docker-compose -f docker-compose.test.yml up test
+          command: make test

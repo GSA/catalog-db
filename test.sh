@@ -20,7 +20,7 @@ function usage () {
 }
 
 port=${1:-5432}
-host=${2:-catalog-db}
+host=${2:-db}
 
 if [[ "$port" == '-h' || "$port" == '--help' ]]; then
   usage
