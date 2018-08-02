@@ -8,7 +8,7 @@ set -o pipefail
 set -o nounset
 
 
-expected_postgis_version=2.3.3
+expected_postgis_version=2.4.4
 
 function usage () {
   cat <<-EOF >&2
