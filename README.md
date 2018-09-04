@@ -5,6 +5,8 @@
 
 <a href="https://hub.docker.com/r/datagov/catalog-db/"><img src="http://dockeri.co/image/datagov/catalog-db" /></a>
 
+Database and extension versions are chosen to match [AWS's RDS offering](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#CHAP_PostgreSQL.Extensions.SupportedPerVersion).
+
 
 ## Development
 
