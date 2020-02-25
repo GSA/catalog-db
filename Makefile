@@ -15,4 +15,4 @@ test:
 	docker-compose up --abort-on-container-exit
 
 clean:
-	docker-compose down
+	docker-compose down -v
