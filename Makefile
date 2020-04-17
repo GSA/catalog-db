@@ -1,5 +1,8 @@
 .PHONY: all build test
 
+BRANCH := $(shell git symbolic-ref --short -q HEAD)
+TAG := datagov/catalog-db:$(BRANCH)
+
 all: build
 
 build:
@@ -16,3 +19,7 @@ test:
 
 clean:
 	docker-compose down -v
+
+tag:
+	echo "Tagging as $(TAG)"
+	docker build . -t $(TAG)

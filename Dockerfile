@@ -1,25 +1,25 @@
-FROM postgres:9.5
+FROM mdillon/postgis:9.6-alpine
 
 ARG DB_CKAN_USER=ckan
 ARG DB_CKAN_PASSWORD=ckan_password
 ARG DB_CKAN_DB=ckan
-ARG DB_PYCSW_DB=pycsw
+
+ARG DB_DATASTORE=datastore
+ARG DB_DATASTORE_RO_USER=datastore_ro
+ARG DB_DATASTORE_RO_PASS=datastore
+
 ARG POSTGRES_USER=postgres
 
 ENV POSTGRES_HOST_AUTH_METHOD=trust
 ENV DB_CKAN_USER ${DB_CKAN_USER}
 ENV DB_CKAN_PASSWORD ${DB_CKAN_PASSWORD}
 ENV DB_CKAN_DB ${DB_CKAN_DB}
-ENV DB_PYCSW_DB ${DB_PYCSW_DB}
-ENV POSTGRES_USER ${POSTGRES_USER}
-ENV POSTGRES_VERSION_MAJOR 9.5
-ENV POSTGIS_VERSION_MAJOR 2.4
 
-# Install required packages
-RUN apt-get -q -y update && apt-get -q -y install \
-        postgis \
-        postgresql-${POSTGRES_VERSION_MAJOR}-postgis-${POSTGIS_VERSION_MAJOR} \
-        postgresql-client
+ENV DB_DATASTORE $DB_DATASTORE
+ENV DB_DATASTORE_RO_USER $DB_DATASTORE_RO_USER
+ENV DB_DATASTORE_RO_PASS $DB_DATASTORE_RO_PASS
+
+ENV POSTGRES_USER ${POSTGRES_USER}
 
 COPY ./prepare_db.sh /docker-entrypoint-initdb.d
 

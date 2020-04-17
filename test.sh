@@ -8,7 +8,7 @@ set -o pipefail
 set -o nounset
 
 
-expected_postgis_version=2.4.4
+expected_postgis_version=2.5.2
 
 function usage () {
   cat <<-EOF >&2
@@ -65,4 +65,3 @@ function test_postgis_version () {
 
 test_setup
 test_postgis_version ckan
-test_postgis_version pycsw

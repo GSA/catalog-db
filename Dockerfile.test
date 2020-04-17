@@ -1,8 +1,6 @@
 # This Dockerfile is used to build a test image containing any test tools and
 # scripts needed to test against our target container.
-FROM postgres:9.3
-
-RUN apt-get update && apt-get install -y netcat-traditional
+FROM postgres:9.6-alpine
 
 ADD ./test.sh /usr/local/bin/test.sh
 
