@@ -10,6 +10,10 @@ build:
     - docker push datagov/catalog-db:2.3.$$BUILD_NUMBER
     - docker build -t datagov/catalog-db:latest .
     - docker push datagov/catalog-db:latest
+    - git checkout ckan_2.8
+    - docker build -t datagov/catalog-db:ckan_2.8 .
+    - docker push datagov/catalog-db:ckan_2.8
+
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
